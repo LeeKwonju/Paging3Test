@@ -41,7 +41,7 @@ class TestFragment: Fragment() {
             binding.button.setOnClickListener {
                 viewModel.getPagingData()
                 viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-                    HashViewHolder.hash.clear()
+                    HashViewHolder.webHash.clear()
                     Log.e("check", "Thread : ${Thread.currentThread()}")
                     viewModel.getPagingData().collectLatest {
                         withContext(Dispatchers.Main) {

@@ -9,14 +9,18 @@ import com.example.myapplication.databinding.ItemWebViewholderBinding
 
 class TestWebViewHolder(private val binding: ItemWebViewholderBinding): RecyclerView.ViewHolder(binding.root) {
 
-    fun bind() {
-        binding.webView.webViewClient = WebViewClient()
+    fun bind(data: String) {
+        binding.webView.loadUrl("https://www.google.com")
+        binding.container.layoutParams.apply {
+            this.height = 200
+            binding.executePendingBindings()
+        }
     }
 
     companion object {
-        fun from(parent: ViewGroup): TestViewHolder {
-            return TestViewHolder(
-                ItemViewholderBinding.inflate(
+        fun from(parent: ViewGroup): TestWebViewHolder {
+            return TestWebViewHolder(
+                ItemWebViewholderBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false

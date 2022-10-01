@@ -1,32 +1,67 @@
 package com.example.myapplication
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-class TestAdapter: PagingDataAdapter<String, TestViewHolder>(DiffUtilHelper()) {
+class TestAdapter : PagingDataAdapter<String, RecyclerView.ViewHolder>(DiffUtilHelper()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TestViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val a = System.currentTimeMillis()
+        var result: RecyclerView.ViewHolder? = null
+        if (viewType == 0) {
+            result = TestWebViewHolder.from(parent)
+            HashViewHolder.webHash.add(result)
+            Log.e(
+                "check",
+                "WebviewHolderCreated total ViewHolder : ${HashViewHolder.webHash.size}, it take ${System.currentTimeMillis() - a}"
+            )
 
-        val result = TestViewHolder.from(parent)
-        HashViewHolder.hash.add(result)
-        Log.e("check", "viewHolderCreated total ViewHolder : ${HashViewHolder.hash.size}, it take ${System.currentTimeMillis() - a}")
-        return result
+        } else {
+            result = TestViewHolder.from(parent)
+            HashViewHolder.defaultHash.add(result)
+            Log.e(
+                "check",
+                "DefaultviewHolderCreated total ViewHolder : ${HashViewHolder.defaultHash.size}, it take ${System.currentTimeMillis() - a}"
+            )
+        }
+        return result!!
     }
 
-    override fun onBindViewHolder(holder: TestViewHolder, position: Int) {
-        Log.e("check", "viewHolderBinded ViewHolder index :  ${HashViewHolder.hash.indexOf(
-            holder
-        ) + 1} ")
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (getItemViewType(position) == 0) {
+            Log.e("check", "viewholder binded index :  ${HashViewHolder.webHash.indexOf(holder)}")
 
-        holder.bind(getItem(position) ?: "")
+            (holder as TestWebViewHolder).bind(getItem(position) ?: "")
+            holder.itemView.layoutParams.apply {
+                CoroutineScope(Dispatchers.Main).launch {
+                    delay(1000)
+                    height = 700
+                }
+            }
+        } else {
+            Log.e("check", "viewholder binded index :  ${HashViewHolder.defaultHash.indexOf(holder)}")
+
+            (holder as TestViewHolder).bind(getItem(position) ?: "")
+        }
+
+
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position % 20 == 19) 0 else 1
     }
 
 
-
-    private class DiffUtilHelper: DiffUtil.ItemCallback<String>() {
+    private class DiffUtilHelper : DiffUtil.ItemCallback<String>() {
 
         override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
             return oldItem == newItem
