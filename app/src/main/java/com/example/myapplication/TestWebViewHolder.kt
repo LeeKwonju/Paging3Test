@@ -15,6 +15,7 @@ class TestWebViewHolder(private val binding: ItemWebViewholderBinding): Recycler
             this.height = 200
             binding.executePendingBindings()
         }
+        binding.titleTextView.text = data
     }
 
     companion object {

@@ -57,7 +57,7 @@ class TestAdapter : PagingDataAdapter<String, RecyclerView.ViewHolder>(DiffUtilH
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position % 20 == 19) 0 else 1
+        return if (position != 0) 0 else 1
     }
 
 

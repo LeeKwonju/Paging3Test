@@ -1,7 +1,11 @@
 package com.example.myapplication
 
+import android.app.Activity
+import android.app.Application
+import android.content.MutableContextWrapper
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.webkit.WebView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ItemViewholderBinding
 import kotlinx.coroutines.CoroutineScope
@@ -10,25 +14,24 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class TestViewHolder(
-    private val binding: ItemViewholderBinding
-) : RecyclerView.ViewHolder(binding.root) {
+    private val webView: WebView
+) : RecyclerView.ViewHolder(webView.rootView) {
 
     fun bind(text: String) {
-        binding.data = text
+        webView.loadUrl("https://www.google.com")
     }
 
 
 
     companion object {
         fun from(parent: ViewGroup): TestViewHolder {
+            val webView = HashViewHolder.testViewHolder!!
+            (webView.context as MutableContextWrapper).baseContext = parent.context
+            webView.apply {
+                layoutParams = ViewGroup.LayoutParams(parent.layoutParams.width, 2000)
+            }
             return TestViewHolder(
-                ItemViewholderBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                ).apply {
-                    this.clickListener = getClickListener(this)
-                }
+                webView
             )
         }
 

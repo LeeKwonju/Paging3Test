@@ -30,7 +30,7 @@ class TestPagingProvider @Inject constructor() {
 
             val data = mutableListOf<String>().apply {
                 var value = key * 10
-                for (i in 0..9) {
+                for (i in 0..1) {
                     add((value++).toString())
                 }
             }
