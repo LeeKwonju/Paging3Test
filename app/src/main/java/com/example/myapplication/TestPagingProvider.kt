@@ -17,7 +17,7 @@ class TestPagingProvider @Inject constructor() {
         config = PagingConfig(
             pageSize = 20,
             enablePlaceholders = false,
-            initialLoadSize = 20,
+            initialLoadSize = 20
         ),
         initialKey = 0
     ) {
