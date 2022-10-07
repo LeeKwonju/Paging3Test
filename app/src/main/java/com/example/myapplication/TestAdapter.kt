@@ -12,15 +12,10 @@ class TestAdapter: PagingDataAdapter<String, TestViewHolder>(DiffUtilHelper()) {
 
         val result = TestViewHolder.from(parent)
         HashViewHolder.hash.add(result)
-        Log.e("check", "viewHolderCreated total ViewHolder : ${HashViewHolder.hash.size}, it take ${System.currentTimeMillis() - a}")
         return result
     }
 
     override fun onBindViewHolder(holder: TestViewHolder, position: Int) {
-        Log.e("check", "viewHolderBinded ViewHolder index :  ${HashViewHolder.hash.indexOf(
-            holder
-        ) + 1} ")
-
         holder.bind(getItem(position) ?: "")
     }
 

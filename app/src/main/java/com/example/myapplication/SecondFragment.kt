@@ -17,7 +17,7 @@ class SecondFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentSecondBinding.inflate(inflater, container, false)
+        val binding = FragmentSecondBinding.inflate(inflater)
         val bundle = Bundle().apply {
             putString("requestKey", "bundleKey")
         }

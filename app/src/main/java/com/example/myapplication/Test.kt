@@ -9,4 +9,12 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
 fun main() {
+    println(What.valueOf("WOEO"))
+    val a = What.GOOD
+}
+
+
+enum class What() {
+    GOOD,
+    WOEO
 }

@@ -17,8 +17,6 @@ class TestViewHolder(
         binding.data = text
     }
 
-
-
     companion object {
         fun from(parent: ViewGroup): TestViewHolder {
             return TestViewHolder(
