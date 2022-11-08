@@ -1,5 +1,7 @@
 package com.example.myapplication
 
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -15,6 +17,7 @@ import com.example.myapplication.databinding.FragmentTestBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -22,15 +25,13 @@ class TestFragment: Fragment() {
 
     lateinit var binding: FragmentTestBinding
 
-
     private val viewModel: TestViewModel by viewModels()
 
-    private val adapter: TestAdapter by lazy {
-        TestAdapter()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.e("check", "TestFragment onCreate")
+
 
     }
 
@@ -39,37 +40,67 @@ class TestFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-
-
-
-        setFragmentResultListener("requestKey") { requestKey, bundle ->
-            val result = bundle.getString("requestKey")
-            Toast.makeText(requireActivity(), "$result, resultReceive", Toast.LENGTH_SHORT).show()
-        }
+        Log.e("check", "Test Fragment createview")
 
         return FragmentTestBinding.inflate(
             inflater,
             container,
             false
         ).also {
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.saveData()
-
-                viewModel.readData()
-            }
             binding = it
             binding.button.setOnClickListener {
-                Intent.CATEGORY_OPENABLE
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://010-2344-3434"))
-                requireContext().startActivity(intent)
+                parentFragmentManager.commit {
+                    replace(R.id.fragmentContainer, SecondFragment())
+                    addToBackStack("a")
+                }
             }
         }.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.e("check", "TestFragment onViewCreated")
+
     }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.e("check", "TestFragment onAttach")
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.e("check", "TestFragment Start")
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e("check", "TestFragment Resume")
+
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.e("check", "TestFragment onDetach")
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.e("check", "TestFragment onPause")
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.e("check", "TestFragment onStop")
+
+    }
+
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

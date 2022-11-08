@@ -12,4 +12,14 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 
 @HiltAndroidApp
 class TestApplication: Application() {
+
+    fun getContext() = applicationContext
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+    }
+
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+    }
 }

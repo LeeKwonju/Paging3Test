@@ -7,8 +7,13 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -16,28 +21,39 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TestViewModel @Inject constructor(
-    private val dataStore: DataStore<Preferences>
 ) : ViewModel() {
 
-    val keyInt = intPreferencesKey("kk")
-    val keyIntTwo = stringPreferencesKey("k")
+    var a = 8
 
+    val ff = MutableSharedFlow<Int>()
 
-
-    suspend fun saveData() {
-        dataStore.edit { preferences ->
-            preferences[keyInt] = 4
-            preferences[keyIntTwo] = "wo"
+    var testList = mutableListOf<Int>().apply {
+        for (i in 1..100) {
+            add(i)
         }
     }
 
-    suspend fun readData() {
-        dataStore.data.map { preferences ->
-            preferences
-        }.collect {
-            Log.e("check", "${it}")
+
+    fun changeTestList(index: Int): List<Int> {
+        val index2 = testList.indexOfFirst {
+            it > 1000
         }
+        testList = testList.filter {
+            it < 1000
+        }.toMutableList()
+        val target =  if (index2 < index && index2 != -1) {
+            index - 1} else {index}
+        testList.add(target, 10000)
+        return testList
     }
+
+
+
+    fun getList() = testList.toList()
+
+    fun changeList() = testList.apply {
+        testList.add(1, 10000)    }.toList()
+
 
 }
 
