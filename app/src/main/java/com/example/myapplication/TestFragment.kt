@@ -10,13 +10,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.datastore.dataStore
 import androidx.fragment.app.*
 import androidx.lifecycle.lifecycleScope
 import com.example.myapplication.databinding.FragmentTestBinding
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
+import retrofit2.http.GET
 import javax.inject.Inject
 
 
@@ -55,11 +59,20 @@ class TestFragment: Fragment() {
                 }
             }
         }.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.e("check", "TestFragment onViewCreated")
+
+        FirebaseCrashlytics.getInstance().setCustomKey("what", "waht")
+        val bundle = Bundle().apply {
+               putString("hi","hi")
+                putString("by","by")
+            }
+        FirebaseAnalytics.getInstance(requireActivity().application).logEvent("hi", bundle)
+
 
     }
 

@@ -1,14 +1,16 @@
 package com.example.myapplication
 
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.coroutineContext
-import kotlin.system.measureTimeMillis
 
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.io.PrintStream
+import java.net.Socket
+import java.net.URL
+import java.security.KeyStore
+import java.security.cert.CertificateFactory
+import javax.net.ssl.HttpsURLConnection
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManagerFactory
 
 
 @Volatile
@@ -19,9 +21,26 @@ val b: Int
     get() = _b!!
 
 fun main() {
-    val ee = 2 shl 30
-    println(2 shl 30)
-    println(2 shl 30 shl 32)
+
+    val socket = Socket("wikidocs.net", 443)
+    val inputStreamReader = BufferedReader(InputStreamReader(socket.getInputStream()))
+    val outStream = PrintStream(socket.getOutputStream())
+
+    with(outStream) {
+        println("GET /images/page/49159/png-2702691_1920_back.png / HTTPs/1.1")
+        println("Host: wikidocs.net")
+        println()
+    }
+
+    var line: String? = "start"
+    while (line != null) {
+        line = inputStreamReader.readLine()
+        println(line)
+    }
+
+    inputStreamReader.close()
+    outStream.close()
+    socket.close()
 
 }
 

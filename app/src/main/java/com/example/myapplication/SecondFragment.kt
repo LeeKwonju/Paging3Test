@@ -1,34 +1,37 @@
 package com.example.myapplication
 
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.VectorDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.provider.ContactsContract
+import android.provider.MediaStore
+import android.provider.MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.core.widget.ImageViewCompat
+import android.webkit.WebView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
-import com.bumptech.glide.Glide
-import com.bumptech.glide.GlideBuilder
-import com.bumptech.glide.load.engine.bitmap_recycle.ArrayPool
-import com.bumptech.glide.load.engine.bitmap_recycle.LruArrayPool
-import com.bumptech.glide.load.resource.bitmap.RecyclableBufferedInputStream
 import com.example.myapplication.databinding.FragmentSecondBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.net.HttpURLConnection
-import java.net.URL
+import kotlinx.coroutines.withContext
+import java.io.FileInputStream
+import java.net.URI
 
 
 @AndroidEntryPoint
-class SecondFragment: Fragment() {
+class SecondFragment : Fragment() {
 
     lateinit var binding: FragmentSecondBinding
 
@@ -37,8 +40,6 @@ class SecondFragment: Fragment() {
     val adapter by lazy {
         TestAdapter()
     }
-
-
 
 
     override fun onCreateView(
@@ -55,17 +56,30 @@ class SecondFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            val connection = URL("https://www.sample-videos.com/img/Sample-png-image-10mb.png").openConnection()
-            val inputStream = connection.getInputStream()
-            val wrappedStream = RecyclableBufferedInputStream(inputStream, LruArrayPool())
-            wrappedStream.mark(700000000)
-            val result = BitmapFactory.decodeStream(wrappedStream)
-            val good = result
-            wrappedStream.reset()
-            val result2 = BitmapFactory.decodeStream(wrappedStream)
-            val good2 = result2
+        val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+
+//            binding.testImageView.setImageURI(it.data?.data)
+//            val result = requireActivity().applicationContext.contentResolver.openFileDescriptor(it.data!!.data!!, "r").use {
+//                FileInputStream(it!!.fileDescriptor).use {
+//                    it.readBytes()
+//                }
+//            }
+//            Log.e("check", "$result")
+            Log.e("check", "$it")
         }
+
+        WebView(requireContext()).loadUrl("")
+        val intent = Intent().apply {
+            type = "image/*"
+            action = Intent.ACTION_GET_CONTENT
+        }
+        Uri.parse("tel:4441234").let {
+            val intent2 = Intent(Intent.ACTION_DIAL, it)
+            activityResultLauncher.launch(intent2)
+
+        }
+
+
 
 
     }

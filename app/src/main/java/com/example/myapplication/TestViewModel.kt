@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.net.Uri
 import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -25,11 +26,24 @@ class TestViewModel @Inject constructor(
 
     var a = 8
 
+    var uri: Uri? = null
+
     val ff = MutableSharedFlow<Int>()
 
     var testList = mutableListOf<Int>().apply {
         for (i in 1..100) {
             add(i)
+        }
+    }
+
+    fun settUri(uri: Uri) {
+        this.uri = uri
+    }
+
+    fun testChange() {
+        viewModelScope.launch {
+            delay(500)
+            a= 10
         }
     }
 

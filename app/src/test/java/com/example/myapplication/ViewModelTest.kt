@@ -1,7 +1,9 @@
 package com.example.myapplication
 
+import android.net.Uri
 import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.extensions.robolectric.RobolectricTest
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.*
@@ -14,7 +16,7 @@ private class check(): TestWatcher() {
         super.starting(description)
     }
 }
-
+@RobolectricTest
 class ViewModelTest : BehaviorSpec() {
 
     private lateinit var mainthread: TestDispatcher
@@ -39,11 +41,26 @@ class ViewModelTest : BehaviorSpec() {
 
             When("chek") {
                 val viewModel = TestViewModel()
+                val a = Uri.parse("https://host.com")
+                viewModel.testChange()
 
-                viewModel.check().waitUntilIdle()
+                mainthread.scheduler.advanceUntilIdle()
 
+                And("sdf") {
+                    viewModel.settUri(a)
+
+                    Then("ct") {
+                        viewModel.a shouldBe 10
+                    }
+                    Then("ct") {
+                        a.toString() shouldBe "https://host.com"
+                    }
+                }
                 Then("c") {
                     viewModel.a shouldBe 10
+                }
+                Then("secodn") {
+                    a.host shouldBe "host.com"
                 }
             }
         }
