@@ -3,21 +3,110 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/testImageView"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+
+        <TextView
+            android:id="@+id/imageViewSizeTextView"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="이미지 뷰 크기"
+
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="100dp"
+            />
+
+        <EditText
+            android:id="@+id/imageViewSizeEditText"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:hint="100"
+            android:inputType="number"
+            android:maxLength="4"
+            android:text="100"
+            app:layout_constraintTop_toTopOf="@id/imageViewSizeTextView"
+            app:layout_constraintBottom_toBottomOf="@id/imageViewSizeTextView"
+            app:layout_constraintLeft_toRightOf="@id/imageViewSizeTextView"
+            />
+
+        <TextView
+            android:id="@+id/imageTextView"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="이미지 크기"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="150dp"
+            />
+
+        <EditText
+            android:id="@+id/imageSizeEditText"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:inputType="number"
+            android:text="100"
+            android:maxLength="4"
+            app:layout_constraintTop_toTopOf="@id/imageTextView"
+            app:layout_constraintBottom_toBottomOf="@id/imageTextView"
+            app:layout_constraintLeft_toRightOf="@id/imageTextView"
+            />
+
+
+        <TextView
+            android:id="@+id/setOriginalImageTextView"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="원본 사진 설정"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="200dp"
+            />
+
+        <ToggleButton
+            android:id="@+id/originalToggleButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            app:layout_constraintLeft_toRightOf="@id/setOriginalImageTextView"
+            app:layout_constraintTop_toTopOf="@id/setOriginalImageTextView"
+            app:layout_constraintBottom_toBottomOf="@id/setOriginalImageTextView"
+            />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:text="설정 완료"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="80dp"
             />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:text="그냥 닫기"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="30dp"
+            />
+
+
 
 
 

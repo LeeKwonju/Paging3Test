@@ -24,51 +24,19 @@ import javax.inject.Inject
 class TestViewModel @Inject constructor(
 ) : ViewModel() {
 
-    var a = 8
+    var imageViewSize: Int = 50
 
-    var uri: Uri? = null
+    var imageSize = 720
 
-    val ff = MutableSharedFlow<Int>()
+    var isOriginal = false
 
-    var testList = mutableListOf<Int>().apply {
-        for (i in 1..100) {
-            add(i)
-        }
+    fun getImageURL(): String {
+        return "$IMAGE_URL/$imageSize/none"
     }
 
-    fun settUri(uri: Uri) {
-        this.uri = uri
+    companion object {
+        const val IMAGE_URL = "https://image.ohou.se/image/resize/bucketplace-v2-development/uploads-cards-snapshots-166765993018920208.jpeg/"
     }
-
-    fun testChange() {
-        viewModelScope.launch {
-            delay(500)
-            a= 10
-        }
-    }
-
-
-    fun changeTestList(index: Int): List<Int> {
-        val index2 = testList.indexOfFirst {
-            it > 1000
-        }
-        testList = testList.filter {
-            it < 1000
-        }.toMutableList()
-        val target =  if (index2 < index && index2 != -1) {
-            index - 1} else {index}
-        testList.add(target, 10000)
-        return testList
-    }
-
-
-
-    fun getList() = testList.toList()
-
-    fun changeList() = testList.apply {
-        testList.add(1, 10000)    }.toList()
-
-
 }
 
 
